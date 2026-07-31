@@ -1,23 +1,24 @@
 class ProductOfNumbers {
 public:
-    vector<int> arr;
+    vector<long long> prefix;
 
-    ProductOfNumbers() {}
+    ProductOfNumbers() {
+        prefix.push_back(1);
+    }
 
     void add(int num) {
-        arr.push_back(num);
+        if (num == 0) {
+            prefix.clear();
+            prefix.push_back(1);
+        } else {
+            prefix.push_back(prefix.back() * num);
+        }
     }
 
     int getProduct(int k) {
-        if (k > arr.size())
+        if (k >= prefix.size())
             return 0;
 
-        long long mul = 1;
-
-        for (int i = arr.size() - 1; i >= (int)arr.size() - k; i--) {
-            mul *= arr[i];
-        }
-
-        return (int)mul;
+        return prefix.back() / prefix[prefix.size() - 1 - k];
     }
 };
