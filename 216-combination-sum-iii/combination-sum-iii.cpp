@@ -1,30 +1,38 @@
 class Solution {
 public:
-    void helper(int num, int k, int target,
-                vector<int>& combi,
-                vector<vector<int>>& ans) {
+    void help(int idx, vector<int>& curr, vector<vector<int>>& ans,
+              int k, int target) {
 
-        if (target == 0 && combi.size() == k) {
-            ans.push_back(combi);
+        if (target < 0)
+            return;
+
+        if (curr.size() == k) {
+            if (target == 0)
+                ans.push_back(curr);
             return;
         }
-
-        if (num > 9 || target < 0 || combi.size() > k)
+        //new cases 
+        if (idx > 9)
             return;
 
-        combi.push_back(num);
-        helper(num + 1, k, target - num, combi, ans);
-        combi.pop_back();
+        if (curr.size() + (10 - idx) < k)//checkinf for if we can still reach it 
+            return;
 
-        helper(num + 1, k, target, combi, ans);
+        // Pick
+        curr.push_back(idx);
+        help(idx + 1, curr, ans, k, target - idx);
+        curr.pop_back();
+
+        // Not Pick
+        help(idx + 1, curr, ans, k, target);
     }
 
     vector<vector<int>> combinationSum3(int k, int n) {
 
         vector<vector<int>> ans;
-        vector<int> combi;
+        vector<int> curr;
 
-        helper(1, k, n, combi, ans);
+        help(1, curr, ans, k, n);
 
         return ans;
     }
