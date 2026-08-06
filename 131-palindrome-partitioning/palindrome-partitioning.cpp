@@ -1,37 +1,42 @@
 class Solution {
 public:
-    bool isPalindrome(string &s, int left, int right) {
+    bool isPalindrome(string &str) {
+        int left = 0;
+        int right = str.size() - 1;
+
         while (left < right) {
-            if (s[left] != s[right])
+            if (str[left] != str[right])
                 return false;
+
             left++;
             right--;
         }
+
         return true;
     }
 
-    void getallpart(int idx, string &s, vector<string> &temp,
+    void getallpart(string s,
+                    vector<string> &temp,
                     vector<vector<string>> &ans) {
 
         // Base case
-        if (idx == s.size()) {
+        if (s.empty()) {
             ans.push_back(temp);
             return;
         }
 
-        // Try every possible substring starting from idx
-        for (int i = idx; i < s.size(); i++) {
+        // Try every prefix
+        for (int i = 0; i < s.size(); i++) {
 
-            // Only proceed if s[idx...i] is a palindrome
-            if (isPalindrome(s, idx, i)) {
+            string part = s.substr(0, i + 1);
 
-                string part = s.substr(idx, i - idx + 1);
+            if (isPalindrome(part)) {
 
                 // Choose
                 temp.push_back(part);
 
-                // Explore
-                getallpart(i + 1, s, temp, ans);
+                // Explore on the remaining string
+                getallpart(s.substr(i + 1), temp, ans);
 
                 // Backtrack
                 temp.pop_back();
@@ -43,7 +48,7 @@ public:
         vector<vector<string>> ans;
         vector<string> temp;
 
-        getallpart(0, s, temp, ans);
+        getallpart(s, temp, ans);
 
         return ans;
     }
