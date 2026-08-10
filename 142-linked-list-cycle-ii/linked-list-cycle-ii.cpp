@@ -8,7 +8,7 @@
  */
 class Solution {
 public:
-    ListNode *detectCycle(ListNode *head) {
+    ListNode *detectCycle(ListNode *head) {//floyd's cycle detection algo in first phase 
         ListNode*slow = head;
         ListNode*fast = head;
         while(fast&&fast->next){
