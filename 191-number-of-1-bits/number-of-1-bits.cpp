@@ -1,13 +1,17 @@
 class Solution {
 public:
-    int hammingWeight(uint32_t n) {
-        int count = 0;
-
-        while(n) {
-            n = n & (n - 1);
-            count++;
+    int hammingWeight(int n) {//by finding the binary string
+        string s  = "";
+        while(n!=0){
+           if(n%2 == 0)s.push_back('0');
+           else s.push_back('1');
+           n = n/2;
         }
-
-        return count;
+        reverse(s.begin(),s.end());
+        int cnt = 0 ;
+        for(char c:s){
+            if(c=='1')cnt++;
+        }
+        return cnt;
     }
 };
