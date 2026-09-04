@@ -1,37 +1,15 @@
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-        int i = 0;
-        vector<int> ans;
-
-        while (i < nums.size()) {
-            int val = -1;
-            bool found = false;
-
-            // Search to the right
-            for (int j = i + 1; j < nums.size(); j++) {
-                if (nums[j] > nums[i]) {
-                    val = nums[j];
-                    found = true;
-                    break;
-                }
+        stack<int> st;
+        vector<int>ans(nums.size());
+        for(int i = 2*nums.size()-1;i>=0;i--){
+            while(!st.empty()&&st.top()<= nums[i%nums.size()])st.pop();//maintaining decreasing montonic stack 
+            if(i<nums.size()){//putting value only when i is orignal 
+                ans[i] = st.empty()?-1:st.top();
             }
-
-            // Search from beginning only if not found
-            if (!found) {
-                for (int j = 0; j < i; j++) {
-                    if (nums[j] > nums[i]) {
-                        val = nums[j];
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            ans.push_back(val);
-            i++;
+            st.push(nums[i%nums.size()]);
         }
-
         return ans;
     }
 };
