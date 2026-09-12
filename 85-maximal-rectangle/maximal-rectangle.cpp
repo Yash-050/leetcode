@@ -1,45 +1,49 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size();
-        stack<int> st;
-        int ans = 0;
+    int mainidea(vector<int>&h){
+        int n =  h.size();
+        vector<int>nse(n),pse(n);
+                stack<int> st;
 
-        for (int i = 0; i <= n; i++) {
-            int curr = (i == n ? 0 : heights[i]);
-
-            while (!st.empty() && heights[st.top()] > curr) {
-                int h = heights[st.top()];
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && h[st.top()] >= h[i])
                 st.pop();
 
-                int width = st.empty() ? i : i - st.top() - 1;
-                ans = max(ans, h * width);
-            }
-
+            pse[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
 
-        return ans;
-    }
+        while (!st.empty())
+            st.pop();
 
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && h[st.top()] >= h[i])
+                st.pop();
 
-        vector<int> heights(n, 0);
+            nse[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+
         int ans = 0;
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == '1')
-                    heights[j]++;
-                else
-                    heights[j] = 0;
-            }
-
-            ans = max(ans, largestRectangleArea(heights));
+        for (int i = 0; i < n; i++) {
+            ans = max(ans, h[i] * (nse[i] - pse[i] - 1));
         }
 
         return ans;
+
+    }
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<int>h(n, 0);int ans = 0 ;
+        for(int i =0 ;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(matrix[i][j]=='1')h[j]++;//increasing a value if the 1
+                else h[j] = 0 ;
+            }
+            ans = max(ans , mainidea(h));
+        }
+        return ans ;
     }
 };
