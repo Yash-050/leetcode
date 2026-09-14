@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
+    vector<int> ans;
+
+    void dfs(TreeNode* root, int depth) {
+        if (root == nullptr)
+            return;
+
+        if (depth == ans.size())
+            ans.push_back(root->val);
+
+        dfs(root->right, depth + 1);
+        dfs(root->left, depth + 1);
+    }
+
     vector<int> rightSideView(TreeNode* root) {
-        vector<int>ans;
-        if(root==nullptr)return ans;
-        queue<TreeNode*>q;
-        q.push(root);//inseting root
-        while(!q.empty()){
-            int size = q.size();
-            for(int i = 0 ;i<size;i++){
-                TreeNode*node = q.front();//taking node value to store the front value then delete 
-                q.pop();
-                if(i==size-1)ans.push_back(node->val);
-                if(node->left!= nullptr)q.push(node->left);//calculation for both left and right 
-                if(node->right!= nullptr)q.push(node->right);
-  
-            }
-        }
+        dfs(root, 0);
         return ans;
     }
 };
