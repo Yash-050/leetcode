@@ -1,27 +1,25 @@
-//brute force
 class StockSpanner {
 public:
-    vector<int> p;
+    stack<pair<int,int>> st;
 
     StockSpanner() {
+        
     }
-
+    
     int next(int price) {
-        p.push_back(price);
+        int cnt = 1;
 
-        int span = 0;
-
-        for (int i = p.size() - 1; i >= 0; i--) {
-            if (p[i] <= price) {
-                span++;
-            } else {
-                break;
-            }
+        while (!st.empty() && st.top().first <= price) {
+            cnt += st.top().second;
+            st.pop();
         }
 
-        return span;
+        st.push({price, cnt});
+
+        return cnt;
     }
 };
+
 /**
  * Your StockSpanner object will be instantiated and called as such:
  * StockSpanner* obj = new StockSpanner();
