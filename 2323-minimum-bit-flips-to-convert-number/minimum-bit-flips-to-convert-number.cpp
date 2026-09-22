@@ -1,21 +1,9 @@
 class Solution {
 public:
-    string conversion(int n) {
-        string ans = "";
-        for (int i = 31; i >= 0; i--) {
-            ans += ((n >> i) & 1);
-        }
-        // reverse(ans.begin(), ans.end());
-        return ans;
-    }
     int minBitFlips(int start, int goal) {
-        int cnt = 0;
-        string s = conversion(start);
-        string g = conversion(goal);
-        
-        for (int i = s.size() - 1; i >= 0; i--) {
-            if (s[i] != g[i])
-                cnt++;
+        int ans = start^goal;int cnt = 0;
+        for(int i = 0 ;i<31;i++){
+            if(ans&(1<<i))cnt++;
         }
         return cnt;
     }
