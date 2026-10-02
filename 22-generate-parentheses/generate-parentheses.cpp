@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool valid(string s) {//brute force
-    
+
         int balance = 0;
 
         for (char c : s) {
@@ -21,7 +21,7 @@ public:
 
     void help(string &s, vector<string>& ans, int idx, int n) {
         if (idx == 2 * n) {
-            ans.push_back(s);
+            if(valid(s))ans.push_back(s);
             return;
         }
 
@@ -40,14 +40,7 @@ public:
 
         help(s, ans, 0, n);
 
-        vector<string> a;
 
-        for (string i : ans) {
-            if (valid(i)) {
-                a.push_back(i);
-            }
-        }
-
-        return a;
+        return ans;
     }
 };
