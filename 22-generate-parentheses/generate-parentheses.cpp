@@ -1,24 +1,52 @@
 class Solution {
 public:
-    void help(string s, vector<string>& ans, int open, int close, int n) {
+    bool valid(string s) {
+        int balance = 0;
 
-        if (s.size() == 2 * n) {
+        for (char c : s) {
+            if (c == '(') {
+                balance++;
+            } 
+            else {
+                balance--;
+
+                if (balance < 0)
+                    return false;
+            }
+        }
+
+        return balance == 0;
+    }
+
+    void help(string &s, vector<string>& ans, int idx, int n) {
+        if (idx == 2 * n) {
             ans.push_back(s);
             return;
         }
 
-        if (open < n) {
-            help(s + "(", ans, open + 1, close, n);
-        }
+        s.push_back('(');
+        help(s, ans, idx + 1, n);
+        s.pop_back();
 
-        if (close < open) {
-            help(s + ")", ans, open, close + 1, n);
-        }
+        s.push_back(')');
+        help(s, ans, idx + 1, n);
+        s.pop_back(); // good practice
     }
 
     vector<string> generateParenthesis(int n) {
         vector<string> ans;
-        help("", ans, 0, 0, n);
-        return ans;
+        string s = "";
+
+        help(s, ans, 0, n);
+
+        vector<string> a;
+
+        for (string i : ans) {
+            if (valid(i)) {
+                a.push_back(i);
+            }
+        }
+
+        return a;
     }
 };
