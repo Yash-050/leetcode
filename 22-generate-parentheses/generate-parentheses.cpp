@@ -1,6 +1,7 @@
 class Solution {
 public:
-    bool valid(string s) {
+    bool valid(string s) {//brute force
+    
         int balance = 0;
 
         for (char c : s) {
