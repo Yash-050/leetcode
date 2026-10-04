@@ -3,7 +3,8 @@ public:
     int candy(vector<int>& ratings) {
         int n = ratings.size();
 
-        vector<int> l(n, 1), r(n, 1);
+        vector<
+        int> l(n, 1), r(n, 1);
 
         for (int i = 1; i < n; i++) {
             if (ratings[i] > ratings[i - 1]) {
